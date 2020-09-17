@@ -1,0 +1,21 @@
+image: java:8
+
+stages:
+  - undeploy
+  - deploy
+
+before_script:
+  - chmod +x mvnw
+
+undeploy:
+  stage: undeploy
+  tags: [master]
+  script: ./mvnw -e -X wildfly:undeploy
+
+production:
+  stage: deploy
+  tags: [master]
+  script:
+    ./mvnw -e -X wildfly:deploy
+  only:
+    - master
